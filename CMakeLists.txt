@@ -26,6 +26,12 @@ add_executable (Shooter_Raylib
 	
 	"Source/Core/Window.h"
 	"Source/Core/Window.cpp"
+	
+	"Source/Core/Factories/EntityFactory.h"
+	"Source/Core/Factories/EntityFactory.cpp"
+
+	"Source/Core/Entity/Component.h"
+
 )
 
 source_group("Source" FILES
@@ -46,6 +52,15 @@ source_group("Debugging" FILES
 source_group("Core" FILES
 	"Source/Core/Window.h"
 	"Source/Core/Window.cpp"
+)
+
+source_group("Core\\Entities" FILES
+	"Source/Core/Entity/Component.h"
+)
+
+source_group("Core\\Factories" FILES
+	"Source/Core/Factories/EntityFactory.h"
+	"Source/Core/Factories/EntityFactory.cpp"
 )
 
 set_target_properties(Shooter_Raylib PROPERTIES

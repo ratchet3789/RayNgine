@@ -1,12 +1,22 @@
 #include "EntityFactory.h"
 
-UniqueEntity EntityFactory::CreateEntity()
+EntityFactory::EntityFactory()
 {
-	UniqueEntity Entity{};
+	
+}
+
+EntityFactory::~EntityFactory()
+{
+	Clear();
+}
+
+Entity EntityFactory::CreateEntity()
+{
+	Entity _Entity{};
 	if (!RecycledIDs.empty())
 	{
 		int Id = RecycledIDs.front();
-		Entity = UniqueEntity(Id, Generations[Id]);
+		_Entity = Entity(Id, Generations[Id]);
 		RecycledIDs.pop();
 		AliveFlags[Id] = true;
 	}
@@ -15,23 +25,29 @@ UniqueEntity EntityFactory::CreateEntity()
 		int Id = NextIdCounter++;
 		Generations.push_back(0);
 		AliveFlags.push_back(true);
-		Entity = UniqueEntity(Id, 0);
+		_Entity = Entity(Id, 0);
 	}
-	return Entity;
+	return _Entity;
 }
 
-void EntityFactory::DestroyEntity(UniqueEntity& _Entity)
+void EntityFactory::DestroyEntity(Entity& _Entity)
 {
 	AliveFlags[_Entity._ID] = false;
 	Generations[_Entity._ID]++;
 	RecycledIDs.push(_Entity._ID);
 }
 
-const bool EntityFactory::IsAlive(UniqueEntity& _Entity) const
+const bool EntityFactory::IsAlive(Entity& _Entity) const
 {
 	return AliveFlags[_Entity._ID] && Generations[_Entity._ID] == _Entity._Gen;
 }
 
 void EntityFactory::Clear()
 {
+	AliveFlags.clear();
+	Generations.clear();
+	std::queue<uint32_t>().swap(RecycledIDs);
+	NextIdCounter = 0;
 }
+
+EntityFactory g_EntityFactory;

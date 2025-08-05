@@ -12,6 +12,7 @@ int main()
 {
 	Window* _Window = new Window();
 
+	// Shutdown
 	delete _Window;
 	_Window = nullptr;
 

@@ -7,11 +7,11 @@
 
 #include <cstdint>
 
-class UniqueEntity
+class Entity
 {
 public:
-	UniqueEntity();
-	~UniqueEntity();
+	Entity();
+	~Entity();
 
 	void GetID();
 
