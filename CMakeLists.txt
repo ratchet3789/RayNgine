@@ -27,10 +27,11 @@ add_executable (Shooter_Raylib
 	"Source/Core/Window.h"
 	"Source/Core/Window.cpp"
 	
-	"Source/Core/Factories/EntityFactory.h"
-	"Source/Core/Factories/EntityFactory.cpp"
+	"Source/Core/Factories/EntityManager.h"
+	"Source/Core/Factories/EntityManager.cpp"
 
-	"Source/Core/Entity/Component.h"
+	"Source/Core/Entity/ComponentArray.h"
+	"Source/Core/Entity/ComponentArray.cpp"
 
 )
 
@@ -55,12 +56,13 @@ source_group("Core" FILES
 )
 
 source_group("Core\\Entities" FILES
-	"Source/Core/Entity/Component.h"
+	"Source/Core/Entity/ComponentArray.h"
+	"Source/Core/Entity/ComponentArray.cpp"
 )
 
 source_group("Core\\Factories" FILES
-	"Source/Core/Factories/EntityFactory.h"
-	"Source/Core/Factories/EntityFactory.cpp"
+	"Source/Core/Factories/EntityManager.h"
+	"Source/Core/Factories/EntityManager.cpp"
 )
 
 set_target_properties(Shooter_Raylib PROPERTIES
