@@ -1,5 +1,13 @@
 ﻿#include "Node.h"
 #include <cassert>
+#include "../../Debugging/Logger.h"
+#include "../World.h"
+
+Node::Node(const char* Name)
+{
+	g_IDAllocator.AssignIdentifer(UniqueID);
+	DisplayName = Name;
+}
 
 void Node::SetNewParent(Node *ParentNode)
 {
@@ -36,4 +44,22 @@ void Node::RemoveChild(Node *ChildNode)
 	}
 	
 	Children.erase(TargetNode);
+}
+
+void Node::OnDestroy_World()
+{
+	g_World.AddToDestroyQueue(this);
+	OnDestroy();
+}
+
+void Node::OnEnable_World()
+{
+	g_World.AddToEnabledQueue(this);
+	OnEnable();
+}
+
+void Node::OnDisable_World()
+{
+	g_World.AddToDisabledQueue(this);
+	OnDisable();
 }

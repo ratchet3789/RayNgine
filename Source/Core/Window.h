@@ -16,8 +16,12 @@ public:
 	void Render();
 
 	// Window Helpers
-	__forceinline void GetRendererScale(int& ResX, int& ResY);
-
+	inline void GetRendererScale(int& ResX, int& ResY)
+	{
+		ResX = GetRenderWidth();
+		ResY = GetRenderHeight();
+	}
 };
 
+extern Window g_Window;
 #endif //Window_H

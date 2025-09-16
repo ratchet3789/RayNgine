@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "../Tools/IniParser.h"
 
+#include "World.h"
 #include <string>
 
 Window::Window()
@@ -26,15 +27,10 @@ void Window::Render()
 {
 	ClearBackground(Color(39, 58, 93, 255));
 	BeginDrawing();
-	// 3d models and shit
-	int ResX, ResY;
-	GetRendererScale(ResX, ResY);
-	DrawCircle(ResX * 0.5f, ResY * 0.5f, 32.0f, Color(255, 255, 255, 255));
+
+	g_World.Tick();
+
 	EndDrawing();
 }
 
-void Window::GetRendererScale(int& ResX, int& ResY)
-{
-	ResX = GetRenderWidth();
-	ResY = GetRenderHeight();
-}
+Window g_Window;

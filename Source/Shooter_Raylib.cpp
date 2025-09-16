@@ -7,6 +7,8 @@
 
 #include <string>
 
+#include <iostream>
+
 int main()
 {
 	Window* _Window = new Window();

@@ -29,6 +29,14 @@ add_executable (Shooter_Raylib
 
 	"Source/Core/Nodes/Node.cpp"
 	"Source/Core/Nodes/Node.h"
+	"Source/Core/IDAllocator.cpp"
+	"Source/Core/IDAllocator.h"
+		Source/Core/World.cpp
+		Source/Core/World.h
+		Source/Core/Nodes/World/WorldRoot.cpp
+		Source/Core/Nodes/World/WorldRoot.h
+		Source/Core/Nodes/2D/Circle2D.cpp
+		Source/Core/Nodes/2D/Circle2D.h
 
 )
 
@@ -50,6 +58,8 @@ source_group("Debugging" FILES
 source_group("Core" FILES
 	"Source/Core/Window.h"
 	"Source/Core/Window.cpp"
+	"Source/Core/IDAllocator.cpp"
+	"Source/Core/IDAllocator.h"
 )
 
 source_group("Core\\Nodes" FILES

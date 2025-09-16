@@ -4,3 +4,4 @@
 _BUILD
 out/*
 ._*
+/_ReSharper.Caches/*
