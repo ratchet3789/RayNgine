@@ -3,7 +3,6 @@
 
 #include "Shooter_Raylib.h"
 #include "Tools/IniParser.h"
-#include "Debugging/Logger.h"
 #include "Core/Window.h"
 
 #include <string>

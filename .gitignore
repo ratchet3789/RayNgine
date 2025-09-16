@@ -1,4 +1,6 @@
 .vs/*
+.idea/*
 [Bb]uild/*
+_BUILD
 out/*
 ._*
