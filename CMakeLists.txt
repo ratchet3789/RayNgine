@@ -31,13 +31,14 @@ add_executable (Shooter_Raylib
 	"Source/Core/Nodes/Node.h"
 	"Source/Core/IDAllocator.cpp"
 	"Source/Core/IDAllocator.h"
-		Source/Core/World.cpp
-		Source/Core/World.h
-		Source/Core/Nodes/World/WorldRoot.cpp
-		Source/Core/Nodes/World/WorldRoot.h
-		Source/Core/Nodes/2D/Circle2D.cpp
-		Source/Core/Nodes/2D/Circle2D.h
-
+	Source/Core/World.cpp
+	Source/Core/World.h
+	Source/Core/Nodes/World/WorldRoot.cpp
+	Source/Core/Nodes/World/WorldRoot.h
+	Source/Core/Nodes/2D/Circle2D.cpp
+	Source/Core/Nodes/2D/Circle2D.h
+	Source/Core/LevelLoader.cpp
+	Source/Core/LevelLoader.h
 )
 
 source_group("Source" FILES
@@ -71,6 +72,7 @@ set_target_properties(Shooter_Raylib PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "$(SolutionDir)$(Configuration)"
 )
 
+target_include_directories(Shooter_Raylib PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/rapidjson/include)
 target_link_libraries(Shooter_Raylib PRIVATE raylib)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
