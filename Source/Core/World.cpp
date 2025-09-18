@@ -129,7 +129,7 @@ void World::FinalizeDestroyed()
 }
 
 template<typename T>
-T* World::SpawnNode(Node *Parent, const char* Name)
+T* World::SpawnNode(Node *Parent, std::string Name)
 {
 	T* Node = new T(Name);
 	if (!Parent)

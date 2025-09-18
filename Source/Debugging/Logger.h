@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <fstream>
 #include <stdarg.h>
+#include <cerrno>
+#include <cstring>
 
 enum class ELogColor : uint8_t
 {

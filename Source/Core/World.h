@@ -12,9 +12,10 @@ class World
 {
 public:
 	Node* WorldRoot;
+	std::string WorldName;
 
 	template<typename T>
-	T* SpawnNode(Node* Parent, const char* Name);
+	T* SpawnNode(Node* Parent, std::string Name);
 
 	void Activate(Node* InactiveNode);
 	void Deactivate(Node* ActiveNode);

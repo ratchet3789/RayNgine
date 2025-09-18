@@ -5,13 +5,14 @@
 
 #include "../Debugging/Logger.h"
 
-IniParser::IniParser(const std::string& FilePath)
+IniParser::IniParser(const char* FilePath)
 {
 	std::ifstream IniFileStream(FilePath);
 	
 	if (IniFileStream.fail())
 	{
-		g_Logger.LogError("Failed to load %s.\nReason: \n", FilePath.c_str(), strerror(errno));
+		// ReSharper disable once CppDeprecatedEntity
+		g_Logger.LogError("Failed to load %s.\nReason: \n", FilePath, strerror(errno));
 		return;
 	}
 

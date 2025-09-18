@@ -9,13 +9,16 @@
 
 #include <iostream>
 
+#include "Core/LevelLoader.h"
+
 int main()
 {
-	Window* _Window = new Window();
+	g_LevelLoader.Load("DefaultLevel.json");
 
+	g_Window.CreateWindow();
 	// Shutdown
-	delete _Window;
-	_Window = nullptr;
+	//delete _Window;
+	//_Window = nullptr;
 
 	return 0;
 }

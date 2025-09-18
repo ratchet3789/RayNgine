@@ -6,6 +6,15 @@
 
 Window::Window()
 {
+}
+
+Window::~Window()
+{
+	CloseWindow();
+}
+
+void Window::CreateWindow()
+{
 	int ResX = g_IniParser.GetOrDefault<int>("Graphics", "ResX", 1280);
 	int ResY = g_IniParser.GetOrDefault<int>("Graphics", "ResY", 720);
 	std::string Title = g_IniParser.GetOrDefault<std::string>("Graphics", "Title", "Window");
@@ -16,11 +25,6 @@ Window::Window()
 	{
 		Render();
 	}
-}
-
-Window::~Window()
-{
-	CloseWindow();
 }
 
 void Window::Render()

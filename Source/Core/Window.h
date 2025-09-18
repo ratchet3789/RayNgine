@@ -13,6 +13,7 @@ public:
 	Window();
 	~Window();
 
+	void CreateWindow();
 	void Render();
 
 	// Window Helpers

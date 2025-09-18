@@ -7,11 +7,13 @@
 
 #include <string>
 #include <unordered_map>
+#include <cerrno>
+#include <cstring>
 
 class IniParser
 {
 public:
-	IniParser(const std::string& FilePath);
+	IniParser(const char* FilePath);
 	~IniParser() {}
 	
 	// Overloads
