@@ -5,8 +5,9 @@
 #include <raylib.h>
 
 #include <vector>
-#include "../IDAllocator.h"
+#include <string>
 
+#include "../IDAllocator.h"
 
 #define DECLARE_NODE_CLASS(name) \
 	static const char* StaticNodeClassName() { return #name; } \
@@ -23,8 +24,7 @@ class Node
 {
 public:
 	DECLARE_NODE_CLASS(Node)
-
-	Node(const char* Name);
+	Node(std::string Name, NodeTransform _Transform);
 
 	virtual ~Node()
 	{
@@ -45,25 +45,25 @@ public:
 	bool operator!=(const Node &B) const { return !(*this == B); }
 
 	// Core
-	NodeTransform transform{};
-	const char* GetName() const { return DisplayName; }
+	NodeTransform Transform{};
+	std::string GetName() const { return DisplayName; }
 
 	// Base Node Calls
 	// Called when object Spawned/Created
-	virtual void Start() = 0;
+	virtual void Start() {}
 	// Called Per-frame
-	virtual void Tick(float DeltaTime) = 0;
+	virtual void Tick(float DeltaTime) {}
 	// Called per-Physics Tick
-	virtual void FixedUpdate(float DeltaTime) = 0;
+	virtual void FixedUpdate(float DeltaTime) {}
 	// Called when Garbage Collected
 
-	virtual void OnDestroy() = 0;
+	virtual void OnDestroy() {}
 	// Called when Enabled by user via Enable()
-	virtual void OnEnable() = 0;
+	virtual void OnEnable() {}
 	// Called when Disabled by user via Disable()
-	virtual void OnDisable() = 0;
+	virtual void OnDisable() {}
 	// Called when Key Press registered in Window
-	virtual void KeyPressed(KeyboardKey Key) = 0;
+	virtual void KeyPressed(KeyboardKey Key) {}
 
 	inline bool CanTick() { return bCanTick;}
 
@@ -75,7 +75,7 @@ public:
 	bool bCanTick{true};
 
 protected:
-	const char* DisplayName;
+	std::string DisplayName;
 	IDHandle UniqueID;
 
 private:

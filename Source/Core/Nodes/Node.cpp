@@ -2,11 +2,13 @@
 #include <cassert>
 #include "../../Debugging/Logger.h"
 #include "../World.h"
+#include "../NodeFactory.h"
 
-Node::Node(const char* Name)
+Node::Node(std::string Name, NodeTransform _Transform)
 {
 	g_IDAllocator.AssignIdentifer(UniqueID);
 	DisplayName = Name;
+	Transform = _Transform;
 }
 
 void Node::SetNewParent(Node *ParentNode)

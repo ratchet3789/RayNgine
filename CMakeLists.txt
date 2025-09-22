@@ -39,6 +39,9 @@ add_executable (Shooter_Raylib
 	Source/Core/Nodes/2D/Circle2D.h
 	Source/Core/LevelLoader.cpp
 	Source/Core/LevelLoader.h
+	Source/Core/NodeFactory.h
+        Source/Core/NodeFactory.cpp
+		Source/Core/Nodes/NodeRegistrar.h
 )
 
 source_group("Source" FILES

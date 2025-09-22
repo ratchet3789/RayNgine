@@ -4,10 +4,15 @@
 
 #include "WorldRoot.h"
 
-WorldRoot::WorldRoot() : Node("WorldRoot")
+#include "../../NodeFactory.h"
+#include "../../World.h"
+
+/*WorldRoot::WorldRoot() : Node("WorldRoot", NodeTransform{})
 {
 	// We cannot reorder this item AND it will always be active.
 	bCanReorderNode = false;
 	bEnabled = true;
 	bCanTick = false;
-}
+}*/
+
+REGISTER_NODE(WorldRoot)

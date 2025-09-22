@@ -4,6 +4,12 @@
 
 #include "World.h"
 #include "../Debugging/Logger.h"
+#include "Nodes/World/WorldRoot.h"
+
+World::World()
+{
+	_WorldRoot = SpawnNode<WorldRoot>(nullptr, "WorldRoot", NodeTransform{});
+}
 
 void World::Activate(Node *InactiveNode)
 {
@@ -126,19 +132,6 @@ void World::FinalizeDestroyed()
 		delete n;
 	}
 	DeleteQueue.clear();
-}
-
-template<typename T>
-T* World::SpawnNode(Node *Parent, std::string Name)
-{
-	T* Node = new T(Name);
-	if (!Parent)
-		WorldRoot->AddChild(Node);
-	else
-		Parent->AddChild(Node);
-
-	ActiveNodes.push_back(Node);
-	return Node;
 }
 
 World g_World;

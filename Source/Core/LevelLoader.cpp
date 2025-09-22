@@ -1,6 +1,7 @@
 ﻿#include "LevelLoader.h"
 #include <fstream>
 
+#include "NodeFactory.h"
 #include "../Debugging/Logger.h"
 
 std::unique_ptr<World> LevelLoader::Load(std::string Path)
@@ -37,11 +38,10 @@ std::unique_ptr<World> LevelLoader::Load(std::string Path)
 void LevelLoader::ParseTree(const rapidjson::Document &Doc)
 {
 	const auto &NodeTree = Doc["Nodes"].GetArray()[0];
-	ParseNode(NodeTree, nullptr);
-
+	ParseNode(NodeTree);
 }
 
-void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>>& ChildNode, NodeData* ParentNode)
+void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>>& ChildNode)
 {
 	NodeData ND;
 	ND.TypeStr = ChildNode["Type"].GetString();
@@ -73,13 +73,17 @@ void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>>& Ch
 		const auto& Children = ChildNode["Children"].GetArray();
 		for (const auto& Node : Children)
 		{
-			ParseNode(Node, &ND);
+			ParseNode(Node);
 		}
 	}
 }
 
 void LevelLoader::ParseDataToWorldObjects()
 {
+	for (NodeData UniqueNode : Nodes)
+	{
+		g_NodeRegistry[UniqueNode.ObjectName];
+	}
 }
 
 LevelLoader g_LevelLoader;

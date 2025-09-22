@@ -7,12 +7,12 @@
 #include "../Node.h"
 
 /*
-The World Root is the base Root Node for everyhting in the world. It shouldn't move or be able to be modified
-This won't ever be ticked and won't have
+The World Root is the base Root Node for everything in the world. It shouldn't move or be able to be modified
 */
 class WorldRoot : public Node
 {
-	WorldRoot();
+public:
+	using Node::Node;
 };
 
 #endif //SHOOTER_RAYLIB_WORLDROOT_H

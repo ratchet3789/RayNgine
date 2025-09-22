@@ -9,8 +9,18 @@
 
 class Circle2D : public Node
 {
+public:
+using Node::Node;
+
 	void Tick(float DeltaTime) override;
 
+	virtual void Start(){};
+	virtual void FixedUpdate(float DeltaTime){};
+
+	virtual void OnDestroy(){};
+	virtual void OnEnable(){};
+	virtual void OnDisable(){};
+	virtual void KeyPressed(KeyboardKey Key){};
 };
 
 

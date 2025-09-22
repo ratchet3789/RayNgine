@@ -19,8 +19,6 @@ struct NodeData
 	std::string TypeStr;
 	std::string ObjectName;
 	TransformData Transform;
-	NodeData* Parent;
-	NodeData();
 };
 
 class LevelLoader
@@ -30,7 +28,7 @@ public:
 	// Parse the entire tree
 	void ParseTree(const rapidjson::Document& Doc);
 	// Parse each Node recursively (Node -> Has Child? Parse Node(Child))
-	void ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>>& ChildNode, NodeData* ParentNode);
+	void ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>>& ChildNode);
 	void ParseDataToWorldObjects();
 
 private:

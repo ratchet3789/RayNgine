@@ -8,14 +8,35 @@
 #include "Nodes/Node.h"
 #include <chrono>
 
+#define WORLD_ROOT "WorldRoot"
+
 class World
 {
 public:
-	Node* WorldRoot;
+	World();
+
+	Node* _WorldRoot;
 	std::string WorldName;
 
 	template<typename T>
-	T* SpawnNode(Node* Parent, std::string Name);
+	T* SpawnNode(Node* Parent, std::string Name, NodeTransform Transform)
+	{
+		T* _Node = new T(Name, Transform);
+		if (!Parent)
+		{
+			if (Name != WORLD_ROOT)
+			{
+				_WorldRoot->AddChild(_Node);
+			}
+		}
+		else
+		{
+			Parent->AddChild(_Node);
+		}
+
+		ActiveNodes.push_back(_Node);
+		return _Node;
+	}
 
 	void Activate(Node* InactiveNode);
 	void Deactivate(Node* ActiveNode);

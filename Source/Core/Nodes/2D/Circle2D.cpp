@@ -5,6 +5,8 @@
 #include "Circle2D.h"
 #include <raylib.h>
 #include "../../Window.h" // Todo: Intermediate classes so we don't just get the window res from the window itself
+#include "../../NodeFactory.h"
+#include "../../World.h"
 
 void Circle2D::Tick(float DeltaTime)
 {
@@ -13,3 +15,5 @@ void Circle2D::Tick(float DeltaTime)
 	g_Window.GetRendererScale(ResX, ResY);
 	DrawCircle(ResX * 0.5f, ResY * 0.5f, 32.0f, Color(255, 255, 255, 255));
 }
+
+REGISTER_NODE(Circle2D)
