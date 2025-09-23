@@ -21,6 +21,10 @@ using Node::Node;
 	virtual void OnEnable(){};
 	virtual void OnDisable(){};
 	virtual void KeyPressed(KeyboardKey Key){};
+
+public:
+	Vector3 Location;
+
 };
 
 

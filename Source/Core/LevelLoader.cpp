@@ -4,7 +4,7 @@
 #include "NodeFactory.h"
 #include "../Debugging/Logger.h"
 
-std::unique_ptr<World> LevelLoader::Load(std::string Path)
+World *LevelLoader::Load(std::string Path)
 {
 	std::ifstream File(Path);
 	if (File.fail())
@@ -30,60 +30,80 @@ std::unique_ptr<World> LevelLoader::Load(std::string Path)
 		return nullptr;
 	}
 
+	g_pWorld = new World();
 	ParseTree(JsonWorldData);
-	ParseDataToWorldObjects();
-	return nullptr;
+
+	return g_pWorld;
 }
 
 void LevelLoader::ParseTree(const rapidjson::Document &Doc)
 {
 	const auto &NodeTree = Doc["Nodes"].GetArray()[0];
-	ParseNode(NodeTree);
+
+	const char* RootNodeClass = NodeTree["Type"].GetString();
+
+	if (strcmp(RootNodeClass, ROOT) != 0)
+	{
+		g_Logger.LogError("Failed to get the WorldRoot. Got %s instead", NodeTree["Type"].GetString());
+		return;
+	}
+
+	ParseNode(NodeTree, nullptr);
 }
 
-void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>>& ChildNode)
+void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<> > &ChildNode, Node* Parent)
 {
-	NodeData ND;
-	ND.TypeStr = ChildNode["Type"].GetString();
-	ND.ObjectName = ChildNode["Name"].GetString();
+	const char *NodeClassName = ChildNode["Type"].GetString();
+	const char *NodeHeirarchyName = ChildNode["Name"].GetString();
 
-	TransformData TD;
 	const auto &Pos = ChildNode["Transform"]["Pos"].GetArray();
 	const auto &Rot = ChildNode["Transform"]["Rot"].GetArray();;
 	const auto &Scale = ChildNode["Transform"]["Scale"].GetArray();;
+	NodeTransform NT{Vec3ToArray(Pos), Vec4ToArray(Rot), Vec3ToArray(Scale)};
 
-	TD.Pos[0] = Pos[0].GetFloat();
-	TD.Pos[1] = Pos[1].GetFloat();
-	TD.Pos[2] = Pos[2].GetFloat();
+	Node* _Node;
 
-	TD.Rot[0] = Rot[0].GetFloat();
-	TD.Rot[1] = Rot[1].GetFloat();
-	TD.Rot[2] = Rot[2].GetFloat();
-	TD.Rot[3] = Rot[3].GetFloat();
+	auto it = GetNodeRegistry().find(NodeClassName);
+	if (it != GetNodeRegistry().end())
+	{
+		_Node = it->second(Parent, NodeHeirarchyName, NT);
+	}
+	else
+	{
+		g_Logger.LogError("Unknown node type: %s. Bypassing.", NodeClassName);
+		_Node = new Node("InvalidObject", NodeTransform{});
+	}
 
-	TD.Scale[0] = Scale[0].GetFloat();
-	TD.Scale[1] = Scale[1].GetFloat();
-	TD.Scale[2] = Scale[2].GetFloat();
-
-	ND.Transform = TD;
-	Nodes.push_back(ND);
+	if (Parent)
+		Parent->AddChild(_Node);
 
 	if (ChildNode.HasMember("Children"))
 	{
-		const auto& Children = ChildNode["Children"].GetArray();
-		for (const auto& Node : Children)
+		const auto &Children = ChildNode["Children"].GetArray();
+		for (const auto &Node: Children)
 		{
-			ParseNode(Node);
+			ParseNode(Node, _Node);
 		}
 	}
 }
 
-void LevelLoader::ParseDataToWorldObjects()
+const Vector3 LevelLoader::Vec3ToArray(
+	rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<> > > JsonArray)
 {
-	for (NodeData UniqueNode : Nodes)
-	{
-		g_NodeRegistry[UniqueNode.ObjectName];
-	}
+	return Vector3(
+		JsonArray[0].GetFloat(),
+		JsonArray[1].GetFloat(),
+		JsonArray[2].GetFloat());
+}
+
+const Vector4 LevelLoader::Vec4ToArray(
+	rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<> > > JsonArray)
+{
+	return Vector4(
+		JsonArray[0].GetFloat(),
+		JsonArray[1].GetFloat(),
+		JsonArray[2].GetFloat(),
+		JsonArray[3].GetFloat());
 }
 
 LevelLoader g_LevelLoader;

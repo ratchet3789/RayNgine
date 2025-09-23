@@ -41,7 +41,6 @@ add_executable (Shooter_Raylib
 	Source/Core/LevelLoader.h
 	Source/Core/NodeFactory.h
         Source/Core/NodeFactory.cpp
-		Source/Core/Nodes/NodeRegistrar.h
 )
 
 source_group("Source" FILES

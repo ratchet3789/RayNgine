@@ -15,6 +15,11 @@
 
 struct NodeTransform
 {
+	NodeTransform() {};
+	NodeTransform(const Vector3 Loc) : Location(Loc) {};
+	NodeTransform(const Vector3 Loc, const Vector4 Rot) : Location(Loc), Rotation(Rot) {};
+	NodeTransform(const Vector3 Loc, const Vector4 Rot, const Vector3 Scl) : Location(Loc), Rotation(Rot), Scale(Scl) {};
+
 	Vector3 Location{0, 0, 0};
 	Quaternion Rotation{0, 0, 0, 0};
 	Vector3 Scale{1, 1, 1};
@@ -68,7 +73,7 @@ public:
 	inline bool CanTick() { return bCanTick;}
 
 	Node *Parent;
-	std::vector<Node *> Children;
+	std::vector<Node*> Children{};
 
 	bool bEnabled{true};
 	bool bCanReorderNode{true};
@@ -80,9 +85,7 @@ protected:
 
 private:
 	void OnDestroy_World();
-	// Called when Enabled by user via Enable()
 	void OnEnable_World();
-	// Called when Disabled by user via Disable()
 	void OnDisable_World();
 };
 

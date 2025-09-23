@@ -14,6 +14,7 @@ class World
 {
 public:
 	World();
+	virtual ~World();
 
 	Node* _WorldRoot;
 	std::string WorldName;
@@ -24,9 +25,15 @@ public:
 		T* _Node = new T(Name, Transform);
 		if (!Parent)
 		{
-			if (Name != WORLD_ROOT)
+			const char* _NM = typeid(T).name();
+
+			if (strstr(_NM, WORLD_ROOT) == nullptr)
 			{
 				_WorldRoot->AddChild(_Node);
+			}
+			else
+			{
+				_WorldRoot = _Node;
 			}
 		}
 		else
@@ -54,6 +61,10 @@ public:
 	void RecursivelyMarkForDeletion(Node* _Node);
 	void FinalizeDestroyed();
 
+	// Singleton
+	static void Create();
+	static World* Get();
+
 private:
 	std::vector<Node*> ActiveNodes;
 	std::vector<Node*> InactiveNodes;
@@ -70,5 +81,5 @@ private:
 	std::vector<Node*> DisabledQueue;
 };
 
-extern World g_World;
+extern World* g_pWorld;
 #endif //SHOOTER_RAYLIB_WORLD_H

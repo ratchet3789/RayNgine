@@ -17,7 +17,7 @@ void Window::CreateWindow()
 {
 	int ResX = g_IniParser.GetOrDefault<int>("Graphics", "ResX", 1280);
 	int ResY = g_IniParser.GetOrDefault<int>("Graphics", "ResY", 720);
-	std::string Title = g_IniParser.GetOrDefault<std::string>("Graphics", "Title", "Window");
+	std::string Title = g_IniParser.GetOrDefault<std::string>("Graphics", "Title", "My Sick Ass Game Engine Because I'm Very Cool");
 
 	InitWindow(ResX, ResY, Title.c_str());
 
@@ -32,7 +32,7 @@ void Window::Render()
 	ClearBackground(Color(39, 58, 93, 255));
 	BeginDrawing();
 
-	g_World.Tick();
+	g_pWorld->Tick();
 
 	EndDrawing();
 }

@@ -8,7 +8,6 @@
 using NodeFactoryFunc = std::function<Node*(Node *Parent, std::string Name, NodeTransform Transform)>;
 
 using NodeRegistry = std::unordered_map<std::string, NodeFactoryFunc>;
-extern NodeRegistry g_NodeRegistry;
 
 inline NodeRegistry& GetNodeRegistry()
 {
@@ -27,5 +26,5 @@ struct NodeRegistrar
 #define REGISTER_NODE(T) \
 	static NodeRegistrar T##Reg(#T, \
 		[](Node* Parent, std::string Name, NodeTransform Transform) { \
-		return g_World.SpawnNode<T>(Parent, Name, Transform);\
+		return g_pWorld->SpawnNode<T>(Parent, Name, Transform);\
 		});

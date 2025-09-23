@@ -6,9 +6,12 @@
 #include "../Debugging/Logger.h"
 #include "Nodes/World/WorldRoot.h"
 
-World::World()
+World::World() { }
+
+World::~World()
 {
-	_WorldRoot = SpawnNode<WorldRoot>(nullptr, "WorldRoot", NodeTransform{});
+	for (Node* _Node : ActiveNodes) { delete _Node; }
+	for (Node* _Node : InactiveNodes) { delete _Node; }
 }
 
 void World::Activate(Node *InactiveNode)
@@ -28,7 +31,6 @@ void World::Activate(Node *InactiveNode)
 
 	InactiveNodes.erase(NodeIndex);
 	ActiveNodes.push_back(InactiveNode);
-
 }
 
 void World::Deactivate(Node *ActiveNode)
@@ -134,4 +136,19 @@ void World::FinalizeDestroyed()
 	DeleteQueue.clear();
 }
 
-World g_World;
+void World::Create()
+{
+	if (g_pWorld)
+	{
+		delete g_pWorld;
+	}
+
+	g_pWorld = new World();
+}
+
+World* World::Get()
+{
+	return g_pWorld;
+}
+
+World* g_pWorld;

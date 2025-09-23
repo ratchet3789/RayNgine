@@ -9,6 +9,9 @@ Node::Node(std::string Name, NodeTransform _Transform)
 	g_IDAllocator.AssignIdentifer(UniqueID);
 	DisplayName = Name;
 	Transform = _Transform;
+
+	Children = std::vector<Node*>(0);
+
 }
 
 void Node::SetNewParent(Node *ParentNode)
@@ -26,6 +29,12 @@ void Node::SetNewParent(Node *ParentNode)
 
 void Node::AddChild(Node *ChildNode)
 {
+	if (Children.size() <= 0)
+	{
+		Children.push_back(ChildNode);
+		return;
+	}
+
 	if (std::find(Children.begin(), Children.end(), ChildNode) != Children.end())
 	{
 		g_Logger.LogWarning("Child node %s is already a child of %s, ignoring.", ChildNode->GetNodeClassName(), GetNodeClassName());
@@ -50,18 +59,18 @@ void Node::RemoveChild(Node *ChildNode)
 
 void Node::OnDestroy_World()
 {
-	g_World.AddToDestroyQueue(this);
+	g_pWorld->AddToDestroyQueue(this);
 	OnDestroy();
 }
 
 void Node::OnEnable_World()
 {
-	g_World.AddToEnabledQueue(this);
+	g_pWorld->AddToEnabledQueue(this);
 	OnEnable();
 }
 
 void Node::OnDisable_World()
 {
-	g_World.AddToDisabledQueue(this);
+	g_pWorld->AddToDisabledQueue(this);
 	OnDisable();
 }
