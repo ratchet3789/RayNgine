@@ -41,6 +41,7 @@ public:
 			Parent->AddChild(_Node);
 		}
 
+		BeginPlayQueue.push_back(_Node);
 		ActiveNodes.push_back(_Node);
 		return _Node;
 	}
@@ -79,6 +80,7 @@ private:
 
 	std::vector<Node*> EnabledQueue;
 	std::vector<Node*> DisabledQueue;
+	std::vector<Node*> BeginPlayQueue;
 };
 
 extern World* g_pWorld;

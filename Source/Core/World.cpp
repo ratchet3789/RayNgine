@@ -69,6 +69,8 @@ void World::Tick()
 			ActiveNodes[i]->Tick(DT);
 	}
 
+	LastTime = Now;
+
 	ProcessDestroyed();
 	FinalizeDestroyed();
 }
@@ -90,6 +92,11 @@ void World::AddToDisabledQueue(Node *_Node)
 
 void World::ProcessBeginPlay()
 {
+	for (Node* n : BeginPlayQueue)
+	{
+		n->BeginPlay();
+	}
+	BeginPlayQueue.clear();
 }
 
 void World::ProcessEnabled()

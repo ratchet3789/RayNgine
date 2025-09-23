@@ -17,7 +17,7 @@ void Window::CreateWindow()
 {
 	int ResX = g_IniParser.GetOrDefault<int>("Graphics", "ResX", 1280);
 	int ResY = g_IniParser.GetOrDefault<int>("Graphics", "ResY", 720);
-	std::string Title = g_IniParser.GetOrDefault<std::string>("Graphics", "Title", "My Sick Ass Game Engine Because I'm Very Cool");
+	std::string Title = g_IniParser.GetOrDefault<std::string>("Graphics", "Title", "Window");
 
 	InitWindow(ResX, ResY, Title.c_str());
 

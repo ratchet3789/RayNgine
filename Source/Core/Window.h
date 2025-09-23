@@ -22,6 +22,12 @@ public:
 		ResX = GetRenderWidth();
 		ResY = GetRenderHeight();
 	}
+
+	inline void GetRendererScale(float& ResX, float& ResY)
+	{
+		ResX = (float)GetRenderWidth();
+		ResY = (float)GetRenderHeight();
+	}
 };
 
 extern Window g_Window;

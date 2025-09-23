@@ -8,6 +8,7 @@
 #include <string>
 
 #include "../IDAllocator.h"
+#include "../Math/Vector.h"
 
 #define DECLARE_NODE_CLASS(name) \
 	static const char* StaticNodeClassName() { return #name; } \
@@ -16,13 +17,13 @@
 struct NodeTransform
 {
 	NodeTransform() {};
-	NodeTransform(const Vector3 Loc) : Location(Loc) {};
-	NodeTransform(const Vector3 Loc, const Vector4 Rot) : Location(Loc), Rotation(Rot) {};
-	NodeTransform(const Vector3 Loc, const Vector4 Rot, const Vector3 Scl) : Location(Loc), Rotation(Rot), Scale(Scl) {};
+	NodeTransform(const Vec3 Loc) : Location(Loc) {};
+	NodeTransform(const Vec3 Loc, const Quat Rot) : Location(Loc), Rotation(Rot) {};
+	NodeTransform(const Vec3 Loc, const Quat Rot, const Vec3 Scl) : Location(Loc), Rotation(Rot), Scale(Scl) {};
 
-	Vector3 Location{0, 0, 0};
-	Quaternion Rotation{0, 0, 0, 0};
-	Vector3 Scale{1, 1, 1};
+	Vec3 Location{0, 0, 0};
+	Quat Rotation{0, 0, 0, 0};
+	Vec3 Scale{1, 1, 1};
 };
 
 class Node
@@ -55,7 +56,7 @@ public:
 
 	// Base Node Calls
 	// Called when object Spawned/Created
-	virtual void Start() {}
+	virtual void BeginPlay() {}
 	// Called Per-frame
 	virtual void Tick(float DeltaTime) {}
 	// Called per-Physics Tick

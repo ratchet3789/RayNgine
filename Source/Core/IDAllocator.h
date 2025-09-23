@@ -1,8 +1,4 @@
-﻿//
-// Created by addic on 2025/09/16.
-//
-
-#ifndef SHOOTER_RAYLIB_IDALLOCATOR_H
+﻿#ifndef SHOOTER_RAYLIB_IDALLOCATOR_H
 #define SHOOTER_RAYLIB_IDALLOCATOR_H
 #include <queue>
 #include <map>
@@ -16,9 +12,9 @@ public:
     void FreeIdentifier(IDHandle& Handle);
 
 private:
-    int NextId{0};
-    std::queue<int> FreeList{};
-    std::map<int,int> Generations{};
+    uint32_t NextId{0};
+    std::queue<uint32_t> FreeList{};
+    std::map<uint32_t,uint32_t> Generations{};
 };
 
 extern IDAllocator g_IDAllocator;

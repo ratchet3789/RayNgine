@@ -5,6 +5,10 @@ cmake_minimum_required (VERSION 4.0)
 
 project(Shooter_Raylib)
 
+# Raylib options
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE) # global CMake switch
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)    # don’t pull Raylib’s example builds
+
 include(FetchContent)
 FetchContent_Declare(
 	raylib
@@ -41,6 +45,7 @@ add_executable (Shooter_Raylib
 	Source/Core/LevelLoader.h
 	Source/Core/NodeFactory.h
         Source/Core/NodeFactory.cpp
+		Source/Core/Math/Vector.h
 )
 
 source_group("Source" FILES

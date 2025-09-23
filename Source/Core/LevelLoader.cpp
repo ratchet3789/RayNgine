@@ -3,6 +3,7 @@
 
 #include "NodeFactory.h"
 #include "../Debugging/Logger.h"
+#include "Math/Vector.h"
 
 World *LevelLoader::Load(std::string Path)
 {
@@ -87,19 +88,19 @@ void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<> > &C
 	}
 }
 
-const Vector3 LevelLoader::Vec3ToArray(
+const Vec3 LevelLoader::Vec3ToArray(
 	rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<> > > JsonArray)
 {
-	return Vector3(
+	return Vec3(
 		JsonArray[0].GetFloat(),
 		JsonArray[1].GetFloat(),
 		JsonArray[2].GetFloat());
 }
 
-const Vector4 LevelLoader::Vec4ToArray(
+const Vec4 LevelLoader::Vec4ToArray(
 	rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<> > > JsonArray)
 {
-	return Vector4(
+	return Vec4(
 		JsonArray[0].GetFloat(),
 		JsonArray[1].GetFloat(),
 		JsonArray[2].GetFloat(),

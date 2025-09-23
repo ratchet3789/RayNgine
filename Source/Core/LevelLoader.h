@@ -18,8 +18,8 @@ public:
 	// Parse each Node recursively (Node -> Has Child? Parse Node(Child))
 	void ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>>& ChildNode, Node* Parent);
 
-	const Vector4 Vec4ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<>>> JsonArray);
-	const Vector3 Vec3ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<>>> JsonArray);
+	const Vec4 Vec4ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<>>> JsonArray);
+	const Vec3 Vec3ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<>>> JsonArray);
 };
 
 extern LevelLoader g_LevelLoader;

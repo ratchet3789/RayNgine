@@ -10,20 +10,19 @@
 class Circle2D : public Node
 {
 public:
-using Node::Node;
+	using Node::Node;
 
 	void Tick(float DeltaTime) override;
+	void BeginPlay() override;
 
-	virtual void Start(){};
-	virtual void FixedUpdate(float DeltaTime){};
+	void KeyPressed(KeyboardKey Key) override {};
 
-	virtual void OnDestroy(){};
-	virtual void OnEnable(){};
-	virtual void OnDisable(){};
-	virtual void KeyPressed(KeyboardKey Key){};
+private:
+	Vec3 Velocity{256.0f, 256.0f, 0.0f};
+	Vec2 ScreenResolution;
 
-public:
-	Vector3 Location;
+	float CircleRadius{32.0f};
+	Color CircleColor{255,100,255,255};
 
 };
 
