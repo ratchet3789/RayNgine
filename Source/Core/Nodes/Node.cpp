@@ -4,14 +4,13 @@
 #include "../World.h"
 #include "../NodeFactory.h"
 
-Node::Node(std::string Name, NodeTransform _Transform)
+Node::Node(std::string Name, Transform _Transform)
 {
 	g_IDAllocator.AssignIdentifer(UniqueID);
 	DisplayName = Name;
-	Transform = _Transform;
+	NodeTransform = _Transform;
 
 	Children = std::vector<Node*>(0);
-
 }
 
 void Node::SetNewParent(Node *ParentNode)

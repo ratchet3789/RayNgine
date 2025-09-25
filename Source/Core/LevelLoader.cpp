@@ -41,7 +41,7 @@ void LevelLoader::ParseTree(const rapidjson::Document &Doc)
 {
 	const auto &NodeTree = Doc["Nodes"].GetArray()[0];
 
-	const char* RootNodeClass = NodeTree["Type"].GetString();
+	const char *RootNodeClass = NodeTree["Type"].GetString();
 
 	if (strcmp(RootNodeClass, ROOT) != 0)
 	{
@@ -52,7 +52,7 @@ void LevelLoader::ParseTree(const rapidjson::Document &Doc)
 	ParseNode(NodeTree, nullptr);
 }
 
-void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<> > &ChildNode, Node* Parent)
+void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>> &ChildNode, Node *Parent)
 {
 	const char *NodeClassName = ChildNode["Type"].GetString();
 	const char *NodeHeirarchyName = ChildNode["Name"].GetString();
@@ -60,19 +60,18 @@ void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<> > &C
 	const auto &Pos = ChildNode["Transform"]["Pos"].GetArray();
 	const auto &Rot = ChildNode["Transform"]["Rot"].GetArray();;
 	const auto &Scale = ChildNode["Transform"]["Scale"].GetArray();;
-	NodeTransform NT{Vec3ToArray(Pos), Vec4ToArray(Rot), Vec3ToArray(Scale)};
+	Transform NT{Vec3ToArray(Pos), Vec4ToArray(Rot), Vec3ToArray(Scale)};
 
-	Node* _Node;
+	Node *_Node;
 
 	auto it = GetNodeRegistry().find(NodeClassName);
 	if (it != GetNodeRegistry().end())
 	{
 		_Node = it->second(Parent, NodeHeirarchyName, NT);
-	}
-	else
+	} else
 	{
 		g_Logger.LogError("Unknown node type: %s. Bypassing.", NodeClassName);
-		_Node = new Node("InvalidObject", NodeTransform{});
+		_Node = new Node("InvalidObject", Transform{});
 	}
 
 	if (Parent)
@@ -88,8 +87,7 @@ void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<> > &C
 	}
 }
 
-const Vec3 LevelLoader::Vec3ToArray(
-	rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<> > > JsonArray)
+const Vec3 LevelLoader::Vec3ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<>>> JsonArray)
 {
 	return Vec3(
 		JsonArray[0].GetFloat(),
@@ -97,8 +95,7 @@ const Vec3 LevelLoader::Vec3ToArray(
 		JsonArray[2].GetFloat());
 }
 
-const Vec4 LevelLoader::Vec4ToArray(
-	rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<> > > JsonArray)
+const Vec4 LevelLoader::Vec4ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<> > > JsonArray)
 {
 	return Vec4(
 		JsonArray[0].GetFloat(),

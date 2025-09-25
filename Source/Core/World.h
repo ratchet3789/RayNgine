@@ -19,10 +19,43 @@ public:
 	Node* _WorldRoot;
 	std::string WorldName;
 
+	// Player based spawning of T Node
 	template<typename T>
-	T* SpawnNode(Node* Parent, std::string Name, NodeTransform Transform)
+	T* SpawnNode(Node* Parent, std::string Name, Transform _Transform)
 	{
-		T* _Node = new T(Name, Transform);
+		T* _Node = new T(Name, _Transform);
+		if (!Parent)
+		{
+			const char* _NM = typeid(T).name();
+
+			if (strstr(_NM, WORLD_ROOT) == nullptr)
+			{
+				_WorldRoot->AddChild(_Node);
+			}
+			else
+			{
+				_WorldRoot = _Node;
+			}
+		}
+		else
+		{
+			Parent->AddChild(_Node);
+		}
+
+		BeginPlayQueue.push_back(_Node);
+		ActiveNodes.push_back(_Node);
+		return _Node;
+	}
+
+	// Level Loader spawning of T Node
+	template<typename T>
+	T* SpawnJsonNode(Node* Parent, rapidjson::GenericValue<rapidjson::UTF8<>>& Data)
+	{
+		// Check for Malformed JSON
+		const char* Name;
+		Transform _Transform;
+
+		T* _Node = new T(Name, _Transform);
 		if (!Parent)
 		{
 			const char* _NM = typeid(T).name();

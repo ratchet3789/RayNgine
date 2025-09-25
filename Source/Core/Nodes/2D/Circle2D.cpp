@@ -11,26 +11,34 @@
 
 void Circle2D::Tick(float DeltaTime)
 {
-	if ((Transform.Location.X - CircleRadius < 0.0f || Transform.Location.X + CircleRadius > ScreenResolution.X))
+	if ((NodeTransform.Location.X - CircleRadius < 0.0f || NodeTransform.Location.X + CircleRadius > ScreenResolution.
+	     X))
 	{
 		Velocity.X = -Velocity.X;
 	}
 
-	if ((Transform.Location.Y - CircleRadius < 0.0f || Transform.Location.Y + CircleRadius > ScreenResolution.Y))
+	if ((NodeTransform.Location.Y - CircleRadius < 0.0f || NodeTransform.Location.Y + CircleRadius > ScreenResolution.
+	     Y))
 	{
 		Velocity.Y = -Velocity.Y;
 	}
 
-	DrawCircle(Transform.Location.X, Transform.Location.Y, CircleRadius, CircleColor);
+	DrawCircle(NodeTransform.Location.X, NodeTransform.Location.Y, CircleRadius, CircleColor);
 
-	Transform.Location += Velocity * DeltaTime;
-	CircleColor = Color((Transform.Location.X / ScreenResolution.X) * 255.0f, (Transform.Location.Y / ScreenResolution.Y) * 255.0f, 128.0f, 255.0f);
+	NodeTransform.Location += Velocity * DeltaTime;
+	CircleColor = Color((NodeTransform.Location.X / ScreenResolution.X) * 255.0f,
+	                    (NodeTransform.Location.Y / ScreenResolution.Y) * 255.0f, 128.0f, 255.0f);
 }
+
+#include <iostream>
 
 void Circle2D::BeginPlay()
 {
 	g_Window.GetRendererScale(ScreenResolution.X, ScreenResolution.Y);
-	Transform.Location = Vec3(ScreenResolution.X*.5f, ScreenResolution.Y*.5f, 0.0f);
+	NodeTransform.Location = Vec3(ScreenResolution.X * .5f, ScreenResolution.Y * .5f, 0.0f);
+
+	std::cout << (offsetof(Circle2D, Velocity)) << '\n';
+	std::cout << this << '\n';
 }
 
 REGISTER_NODE(Circle2D)

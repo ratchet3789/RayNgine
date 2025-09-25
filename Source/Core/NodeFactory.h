@@ -5,7 +5,7 @@
 #include <functional>
 #include "Nodes/Node.h"
 
-using NodeFactoryFunc = std::function<Node*(Node *Parent, std::string Name, NodeTransform Transform)>;
+using NodeFactoryFunc = std::function<Node*(Node *Parent, std::string Name, Transform _Transform)>;
 
 using NodeRegistry = std::unordered_map<std::string, NodeFactoryFunc>;
 
@@ -25,6 +25,6 @@ struct NodeRegistrar
 
 #define REGISTER_NODE(T) \
 	static NodeRegistrar T##Reg(#T, \
-		[](Node* Parent, std::string Name, NodeTransform Transform) { \
-		return g_pWorld->SpawnNode<T>(Parent, Name, Transform);\
+		[](Node* Parent, std::string Name, Transform _Transform) { \
+		return g_pWorld->SpawnNode<T>(Parent, Name, _Transform);\
 		});

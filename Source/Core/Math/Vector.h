@@ -10,6 +10,7 @@
 #define Vec4 INTRNL_Vector4<float>
 #define Vec4i INTRNL_Vector4<int32_t>
 #define Quat INTRNL_Vector4<float>
+#define Transform INTRNL_Transform<float, float, float>
 
 template <typename T>
 class INTRNL_Vector2
@@ -74,4 +75,17 @@ public:
 	static INTRNL_Vector4 Up(){ return INTRNL_Vector3<T>(0,1,0);}
 	static INTRNL_Vector4 Right() {return INTRNL_Vector3<T>(1,0,0);}
 	static INTRNL_Vector4 Forward() {return INTRNL_Vector3<T>(0,0,1);}
+};
+
+template <typename T, typename U, typename V>
+struct INTRNL_Transform
+{
+	INTRNL_Transform() {};
+	INTRNL_Transform(const INTRNL_Vector3<T> Loc) : Location(Loc) {};
+	INTRNL_Transform(const INTRNL_Vector3<T> Loc, const INTRNL_Vector4<U> Rot) : Location(Loc), Rotation(Rot) {};
+	INTRNL_Transform(const INTRNL_Vector3<T> Loc, const INTRNL_Vector4<U> Rot, const INTRNL_Vector3<V> Scl) : Location(Loc), Rotation(Rot), Scale(Scl) {};
+
+	INTRNL_Vector3<T> Location{0};
+	INTRNL_Vector4<U> Rotation{0};
+	INTRNL_Vector3<V> Scale{0};
 };
