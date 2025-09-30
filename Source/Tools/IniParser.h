@@ -1,9 +1,4 @@
-#ifndef IniParser_H
-#define IniParser_H
-
-#if _WIN32
 #pragma once
-#endif
 
 #include <string>
 #include <unordered_map>
@@ -40,5 +35,3 @@ private:
 	inline bool KeyExists(const std::string& Section, const std::string& Key);
 };
 extern IniParser g_IniParser;
-
-#endif //IniParser_H

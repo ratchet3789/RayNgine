@@ -1,5 +1,5 @@
-﻿#ifndef SHOOTER_RAYLIB_IDALLOCATOR_H
-#define SHOOTER_RAYLIB_IDALLOCATOR_H
+﻿#pragma once
+
 #include <queue>
 #include <map>
 
@@ -18,5 +18,3 @@ private:
 };
 
 extern IDAllocator g_IDAllocator;
-
-#endif //SHOOTER_RAYLIB_IDALLOCATOR_H

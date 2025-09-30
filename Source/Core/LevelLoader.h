@@ -1,9 +1,4 @@
-﻿//
-// Created by addic on 17/09/2025.
-//
-
-#ifndef RAYLIBFPS_LEVELLOADER_H
-#define RAYLIBFPS_LEVELLOADER_H
+﻿#pragma once
 #include "World.h"
 #include <rapidjson/document.h>
 
@@ -23,5 +18,3 @@ public:
 };
 
 extern LevelLoader g_LevelLoader;
-
-#endif //RAYLIBFPS_LEVELLOADER_H

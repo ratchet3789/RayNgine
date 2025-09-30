@@ -1,9 +1,4 @@
-﻿//
-// Created by addic on 2025/09/16.
-//
-
-#ifndef SHOOTER_RAYLIB_WORLDROOT_H
-#define SHOOTER_RAYLIB_WORLDROOT_H
+﻿#pragma once
 #include "../Node.h"
 
 /*
@@ -14,5 +9,3 @@ class WorldRoot : public Node
 public:
 	using Node::Node;
 };
-
-#endif //SHOOTER_RAYLIB_WORLDROOT_H

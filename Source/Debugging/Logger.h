@@ -1,9 +1,4 @@
-#ifndef Logger_H
-#define Logger_H
-
-#if _WIN32
 #pragma once
-#endif
 
 #include <cstdint>
 #include <fstream>
@@ -73,5 +68,3 @@ private:
 };
 
 extern Logger g_Logger;
-
-#endif //Logger_H

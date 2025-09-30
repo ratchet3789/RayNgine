@@ -1,9 +1,4 @@
-﻿//
-// Created by addic on 2025/09/16.
-//
-
-#ifndef SHOOTER_RAYLIB_WORLD_H
-#define SHOOTER_RAYLIB_WORLD_H
+﻿#pragma once
 
 #include "Nodes/Node.h"
 #include <chrono>
@@ -117,4 +112,3 @@ private:
 };
 
 extern World* g_pWorld;
-#endif //SHOOTER_RAYLIB_WORLD_H

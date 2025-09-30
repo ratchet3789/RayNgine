@@ -1,8 +1,4 @@
-﻿//
-// Created by addic on 2025/09/17.
-//
-
-#include "Circle2D.h"
+﻿#include "Circle2D.h"
 #include <raylib.h>
 #include "../../Window.h" // Todo: Intermediate classes so we don't just get the window res from the window itself
 #include "../../NodeFactory.h"

@@ -1,5 +1,4 @@
-﻿#ifndef RAYLIBFPS_NODE_H
-#define RAYLIBFPS_NODE_H
+﻿#pragma once
 
 //#include <raymath.h>
 #include <raylib.h>
@@ -360,5 +359,3 @@ private:
 
 	void OnDisable_World();
 };
-
-#endif //RAYLIBFPS_NODE_H

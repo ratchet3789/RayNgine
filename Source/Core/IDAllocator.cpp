@@ -1,8 +1,4 @@
-﻿//
-// Created by addic on 2025/09/16.
-//
-
-#include "IDAllocator.h"
+﻿#include "IDAllocator.h"
 
 void IDAllocator::AssignIdentifer(IDHandle& Handle)
 {

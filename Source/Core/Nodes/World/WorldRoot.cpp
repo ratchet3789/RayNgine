@@ -1,8 +1,4 @@
-﻿//
-// Created by addic on 2025/09/16.
-//
-
-#include "WorldRoot.h"
+﻿#include "WorldRoot.h"
 
 #include "../../NodeFactory.h"
 #include "../../World.h"

@@ -1,9 +1,4 @@
-﻿//
-// Created by addic on 2025/09/17.
-//
-
-#ifndef SHOOTER_RAYLIB_CIRCLE2D_H
-#define SHOOTER_RAYLIB_CIRCLE2D_H
+﻿#pragma once
 #include "../Node.h"
 
 
@@ -30,5 +25,3 @@ START_DATA_TABLE(Circle2D)
 	DATA_TABLE_ENTRY("Velocity", Circle2D, Velocity, FIELD_VEC3, nullptr)
 	DATA_TABLE_ENTRY("CircleRadius", Circle2D, CircleRadius, FIELD_FLOAT, nullptr)
 END_DATA_TABLE()
-
-#endif //SHOOTER_RAYLIB_CIRCLE2D_H

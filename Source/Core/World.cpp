@@ -1,8 +1,4 @@
-﻿//
-// Created by addic on 2025/09/16.
-//
-
-#include "World.h"
+﻿#include "World.h"
 #include "../Debugging/Logger.h"
 #include "Nodes/World/WorldRoot.h"
 

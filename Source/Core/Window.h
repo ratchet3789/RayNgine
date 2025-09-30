@@ -1,9 +1,4 @@
-#ifndef Window_H
-#define Window_H
-
-#if _WIN32
 #pragma once
-#endif
 
 #include "raylib.h"
 
@@ -31,4 +26,3 @@ public:
 };
 
 extern Window g_Window;
-#endif //Window_H
