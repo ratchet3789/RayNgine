@@ -9,11 +9,11 @@
 
 #include <iostream>
 
-#include "Core/LevelLoader.h"
+#include "Core/LevelSerializer.h"
 
 int main()
 {
-	g_LevelLoader.Load("DefaultLevel.json");
+	g_LevelSerializer.Load("DefaultLevel.json");
 
 	g_Window.CreateWindow();
 	// Shutdown

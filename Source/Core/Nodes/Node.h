@@ -53,7 +53,7 @@ struct FieldDesc
 	};
 
 #define DATA_TABLE_ENTRY(Name, T, Var, Type, Extra) \
-	{ #Name, offsetof(T, Var), Type, Extra },
+	{ Name, offsetof(T, Var), Type, Extra },
 
 #define SERIALIZE_SCALAR(T, Addr, Field, Alloc, Doc) \
 	{ \
@@ -112,6 +112,8 @@ public:
 
 	virtual FieldDesc *GetDataTable() const { return nullptr; }
 
+	// When we Save the level in an Editor state it takes anything that was defined as a DATA_TABLE_ENTRY, serializes it and then
+	// spits back out a Json Document that is automatically read by the World to be saved into the Json data for the level.
 	virtual const rapidjson::Document Serialize()
 	{
 		rapidjson::Document Doc;
@@ -166,7 +168,9 @@ public:
 		}
 		return Doc;
 	}
-	virtual void Deserialize(const rapidjson::GenericValue<rapidjson::UTF8<> > &NodeData)
+
+	// Reads through all the Json data and parses it back out from Json into the actual local Node Object.
+	virtual void Deserialize(const rapidjson::GenericObject<true, rapidjson::GenericValue<rapidjson::UTF8<>>>& NodeData)
 	{
 		for (FieldDesc *Field = GetDataTable(); Field->Name != nullptr; ++Field)
 		{

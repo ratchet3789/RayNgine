@@ -1,12 +1,19 @@
-﻿#include "LevelLoader.h"
+﻿#include "LevelSerializer.h"
 #include <fstream>
 
 #include "NodeFactory.h"
 #include "../Debugging/Logger.h"
 #include "Math/Vector.h"
 
-World *LevelLoader::Load(std::string Path)
+World *LevelSerializer::Load(const std::string& Path)
 {
+	// Destroy our old world before we start to load our new one.
+	// Note: Should this be a queued threaded event? If Old World -> Delete -> Done? -> Load New World
+	if (g_pWorld != nullptr)
+	{
+		delete g_pWorld;
+	}
+
 	std::ifstream File(Path);
 	if (File.fail())
 	{
@@ -14,8 +21,8 @@ World *LevelLoader::Load(std::string Path)
 		return nullptr;
 	}
 
-	std::string JsonStr{""};
-	std::string Line{""};
+	std::string JsonStr;
+	std::string Line;
 	while (std::getline(File, Line))
 	{
 		JsonStr += Line + ' ';
@@ -37,7 +44,12 @@ World *LevelLoader::Load(std::string Path)
 	return g_pWorld;
 }
 
-void LevelLoader::ParseTree(const rapidjson::Document &Doc)
+bool LevelSerializer::Save(const std::string &FilePath)
+{
+	return false;
+}
+
+void LevelSerializer::ParseTree(const rapidjson::Document &Doc)
 {
 	const auto &NodeTree = Doc["Nodes"].GetArray()[0];
 
@@ -52,7 +64,7 @@ void LevelLoader::ParseTree(const rapidjson::Document &Doc)
 	ParseNode(NodeTree, nullptr);
 }
 
-void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>> &ChildNode, Node *Parent)
+void LevelSerializer::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>> &ChildNode, Node *Parent)
 {
 	const char *NodeClassName = ChildNode["Type"].GetString();
 	const char *NodeHeirarchyName = ChildNode["Name"].GetString();
@@ -62,32 +74,42 @@ void LevelLoader::ParseNode(const rapidjson::GenericValue<rapidjson::UTF8<>> &Ch
 	const auto &Scale = ChildNode["Transform"]["Scale"].GetArray();;
 	Transform NT{Vec3ToArray(Pos), Vec4ToArray(Rot), Vec3ToArray(Scale)};
 
-	Node *_Node;
+	Node *WorldNode;
 
 	auto it = GetNodeRegistry().find(NodeClassName);
 	if (it != GetNodeRegistry().end())
 	{
-		_Node = it->second(Parent, NodeHeirarchyName, NT);
-	} else
+		WorldNode = it->second(Parent, NodeHeirarchyName, NT);
+	}
+	else
 	{
 		g_Logger.LogError("Unknown node type: %s. Bypassing.", NodeClassName);
-		_Node = new Node("InvalidObject", Transform{});
+		WorldNode = new Node("InvalidObject", Transform{});
+	}
+
+	// Deserialize all of the data stored on our Node and dump it into our Node.
+	if (ChildNode.HasMember("Data") && ChildNode["Data"].IsObject())
+	{
+
+		const auto& NodeData = ChildNode["Data"].GetObject();
+		WorldNode->Deserialize(NodeData);
 	}
 
 	if (Parent)
-		Parent->AddChild(_Node);
+		Parent->AddChild(WorldNode);
 
+	// Recursively parse children
 	if (ChildNode.HasMember("Children"))
 	{
 		const auto &Children = ChildNode["Children"].GetArray();
 		for (const auto &Node: Children)
 		{
-			ParseNode(Node, _Node);
+			ParseNode(Node, WorldNode);
 		}
 	}
 }
 
-const Vec3 LevelLoader::Vec3ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<>>> JsonArray)
+const Vec3 LevelSerializer::Vec3ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<>>> JsonArray)
 {
 	return Vec3(
 		JsonArray[0].GetFloat(),
@@ -95,7 +117,7 @@ const Vec3 LevelLoader::Vec3ToArray(rapidjson::GenericArray<true, rapidjson::Gen
 		JsonArray[2].GetFloat());
 }
 
-const Vec4 LevelLoader::Vec4ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<> > > JsonArray)
+const Vec4 LevelSerializer::Vec4ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<> > > JsonArray)
 {
 	return Vec4(
 		JsonArray[0].GetFloat(),
@@ -104,4 +126,4 @@ const Vec4 LevelLoader::Vec4ToArray(rapidjson::GenericArray<true, rapidjson::Gen
 		JsonArray[3].GetFloat());
 }
 
-LevelLoader g_LevelLoader;
+LevelSerializer g_LevelSerializer;

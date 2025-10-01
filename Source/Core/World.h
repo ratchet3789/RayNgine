@@ -11,38 +11,40 @@ public:
 	World();
 	virtual ~World();
 
+	// WorldRoot is a requirement for the World itself to exist
 	Node* _WorldRoot;
+	// The levels name
 	std::string WorldName;
 
 	// Player based spawning of T Node
 	template<typename T>
 	T* SpawnNode(Node* Parent, std::string Name, Transform _Transform)
 	{
-		T* _Node = new T(Name, _Transform);
+		T* WorldNode = new T(Name, _Transform);
 		if (!Parent)
 		{
 			const char* _NM = typeid(T).name();
 
 			if (strstr(_NM, WORLD_ROOT) == nullptr)
 			{
-				_WorldRoot->AddChild(_Node);
+				_WorldRoot->AddChild(WorldNode);
 			}
 			else
 			{
-				_WorldRoot = _Node;
+				_WorldRoot = WorldNode;
 			}
 		}
 		else
 		{
-			Parent->AddChild(_Node);
+			Parent->AddChild(WorldNode);
 		}
 
-		BeginPlayQueue.push_back(_Node);
-		ActiveNodes.push_back(_Node);
-		return _Node;
+		BeginPlayQueue.push_back(WorldNode);
+		ActiveNodes.push_back(WorldNode);
+		return WorldNode;
 	}
 
-	// Level Loader spawning of T Node
+	// Level Loader spawning of T Node (I wouldn't use this but hey, I'm not your parent.)
 	template<typename T>
 	T* SpawnJsonNode(Node* Parent, rapidjson::GenericValue<rapidjson::UTF8<>>& Data)
 	{
@@ -50,28 +52,28 @@ public:
 		const char* Name;
 		Transform _Transform;
 
-		T* _Node = new T(Name, _Transform);
+		T* WorldNode = new T(Name, _Transform);
 		if (!Parent)
 		{
 			const char* _NM = typeid(T).name();
 
 			if (strstr(_NM, WORLD_ROOT) == nullptr)
 			{
-				_WorldRoot->AddChild(_Node);
+				_WorldRoot->AddChild(WorldNode);
 			}
 			else
 			{
-				_WorldRoot = _Node;
+				_WorldRoot = WorldNode;
 			}
 		}
 		else
 		{
-			Parent->AddChild(_Node);
+			Parent->AddChild(WorldNode);
 		}
 
-		BeginPlayQueue.push_back(_Node);
-		ActiveNodes.push_back(_Node);
-		return _Node;
+		BeginPlayQueue.push_back(WorldNode);
+		ActiveNodes.push_back(WorldNode);
+		return WorldNode;
 	}
 
 	void Activate(Node* InactiveNode);
@@ -79,15 +81,15 @@ public:
 
 	void Tick();
 
-	void AddToDestroyQueue(Node* _Node);
-	void AddToEnabledQueue(Node* _Node);
-	void AddToDisabledQueue(Node* _Node);
+	void AddToDestroyQueue(Node* WorldNode);
+	void AddToEnabledQueue(Node* WorldNode);
+	void AddToDisabledQueue(Node* WorldNode);
 
 	void ProcessBeginPlay();
 	void ProcessEnabled();
 	void ProcessDisabled();
 	void ProcessDestroyed();
-	void RecursivelyMarkForDeletion(Node* _Node);
+	void RecursivelyMarkForDeletion(Node* WorldNode);
 	void FinalizeDestroyed();
 
 	// Singleton

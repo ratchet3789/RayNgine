@@ -4,10 +4,11 @@
 
 #define ROOT "WorldRoot"
 
-class LevelLoader
+class LevelSerializer
 {
 public:
-	World* Load(std::string Path);
+	World* Load(const std::string& Path);
+	bool Save(const std::string& FilePath);
 	// Parse the entire tree
 	void ParseTree(const rapidjson::Document& Doc);
 	// Parse each Node recursively (Node -> Has Child? Parse Node(Child))
@@ -17,4 +18,4 @@ public:
 	const Vec3 Vec3ToArray(rapidjson::GenericArray<true, rapidjson::GenericValue<rapidjson::UTF8<>>> JsonArray);
 };
 
-extern LevelLoader g_LevelLoader;
+extern LevelSerializer g_LevelSerializer;

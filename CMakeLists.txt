@@ -41,8 +41,8 @@ add_executable (Shooter_Raylib
 	Source/Core/Nodes/World/WorldRoot.h
 	Source/Core/Nodes/2D/Circle2D.cpp
 	Source/Core/Nodes/2D/Circle2D.h
-	Source/Core/LevelLoader.cpp
-	Source/Core/LevelLoader.h
+        Source/Core/LevelSerializer.cpp
+        Source/Core/LevelSerializer.h
 	Source/Core/NodeFactory.h
         Source/Core/NodeFactory.cpp
 		Source/Core/Math/Vector.h

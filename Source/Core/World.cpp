@@ -2,26 +2,29 @@
 #include "../Debugging/Logger.h"
 #include "Nodes/World/WorldRoot.h"
 
-World::World() { }
+World::World()
+{
+}
 
 World::~World()
 {
-	for (Node* _Node : ActiveNodes) { delete _Node; }
-	for (Node* _Node : InactiveNodes) { delete _Node; }
+	for (Node *WorldNode: ActiveNodes) { delete WorldNode; }
+	for (Node *WorldNode: InactiveNodes) { delete WorldNode; }
 }
 
 void World::Activate(Node *InactiveNode)
 {
 	if (std::find(ActiveNodes.begin(), ActiveNodes.end(), InactiveNode) != ActiveNodes.end())
 	{
-		g_Logger.LogWarning("Node %s was not inactive.", InactiveNode->GetName());
+		g_Logger.LogWarning("Node %s was not inactive.", InactiveNode->GetName().c_str());
 		return;
 	}
 
 	auto NodeIndex = std::find(InactiveNodes.begin(), InactiveNodes.end(), InactiveNode);
 	if (NodeIndex == InactiveNodes.end())
 	{
-		g_Logger.LogError("Node %s does not exist in either Inactive or Active Nodes. What did you do?!", InactiveNode->GetName());
+		g_Logger.LogError("Node %s does not exist in either Inactive or Active Nodes. What did you do?!",
+		                  InactiveNode->GetName().c_str());
 		return;
 	}
 
@@ -33,14 +36,15 @@ void World::Deactivate(Node *ActiveNode)
 {
 	if (std::find(InactiveNodes.begin(), InactiveNodes.end(), ActiveNode) != ActiveNodes.end())
 	{
-		g_Logger.LogWarning("Node %s was not active.", ActiveNode->GetName());
+		g_Logger.LogWarning("Node %s was not active.", ActiveNode->GetName().c_str());
 		return;
 	}
 
 	auto NodeIndex = std::find(ActiveNodes.begin(), ActiveNodes.end(), ActiveNode);
 	if (NodeIndex == ActiveNodes.end())
 	{
-		g_Logger.LogError("Node %s does not exist in either Inactive or Active Nodes. What did you do?!", ActiveNode->GetName());
+		g_Logger.LogError("Node %s does not exist in either Inactive or Active Nodes. What did you do?!",
+		                  ActiveNode->GetName().c_str());
 		return;
 	}
 
@@ -59,7 +63,7 @@ void World::Tick()
 
 	float DT = Delta.count();
 
-	for (int i=0;i< ActiveNodes.size(); i++)
+	for (int i = 0; i < ActiveNodes.size(); i++)
 	{
 		if (ActiveNodes[i]->CanTick())
 			ActiveNodes[i]->Tick(DT);
@@ -71,24 +75,36 @@ void World::Tick()
 	FinalizeDestroyed();
 }
 
-void World::AddToDestroyQueue(Node *_Node)
+void World::AddToDestroyQueue(Node *WorldNode)
 {
-	DestroyingQueue.push_back(_Node);
+	if (WorldNode != nullptr)
+	{
+		if (std::find(DestroyingQueue.begin(), DestroyingQueue.end(), WorldNode) == DestroyingQueue.end())
+		{
+			DestroyingQueue.push_back(WorldNode);
+		}
+	}
 }
 
-void World::AddToEnabledQueue(Node *_Node)
+void World::AddToEnabledQueue(Node *WorldNode)
 {
-	EnabledQueue.push_back(_Node);
+	if (WorldNode != nullptr)
+	{
+		EnabledQueue.push_back(WorldNode);
+	}
 }
 
-void World::AddToDisabledQueue(Node *_Node)
+void World::AddToDisabledQueue(Node *WorldNode)
 {
-	DisabledQueue.push_back(_Node);
+	if (WorldNode != nullptr)
+	{
+		DisabledQueue.push_back(WorldNode);
+	}
 }
 
 void World::ProcessBeginPlay()
 {
-	for (Node* n : BeginPlayQueue)
+	for (Node *n: BeginPlayQueue)
 	{
 		n->BeginPlay();
 	}
@@ -97,7 +113,7 @@ void World::ProcessBeginPlay()
 
 void World::ProcessEnabled()
 {
-	for (Node* n : EnabledQueue)
+	for (Node *n: EnabledQueue)
 	{
 		Activate(n);
 	}
@@ -105,7 +121,7 @@ void World::ProcessEnabled()
 
 void World::ProcessDisabled()
 {
-	for (Node* n : EnabledQueue)
+	for (Node *n: EnabledQueue)
 	{
 		Deactivate(n);
 	}
@@ -113,26 +129,26 @@ void World::ProcessDisabled()
 
 void World::ProcessDestroyed()
 {
-	for (Node* n : DestroyingQueue)
+	for (Node *n: DestroyingQueue)
 	{
 		RecursivelyMarkForDeletion(n);
 	}
 	DestroyingQueue.clear();
 }
 
-void World::RecursivelyMarkForDeletion(Node *_Node)
+void World::RecursivelyMarkForDeletion(Node *WorldNode)
 {
-	for (Node* child : _Node->Children)
+	for (Node *child: WorldNode->Children)
 	{
 		RecursivelyMarkForDeletion(child);
 	}
-	_Node->OnDestroy();
-	DeleteQueue.push_back(_Node);
+	WorldNode->OnDestroy();
+	DeleteQueue.push_back(WorldNode);
 }
 
 void World::FinalizeDestroyed()
 {
-	for (Node* n : DeleteQueue)
+	for (Node *n: DeleteQueue)
 	{
 		delete n;
 	}
@@ -149,9 +165,9 @@ void World::Create()
 	g_pWorld = new World();
 }
 
-World* World::Get()
+World *World::Get()
 {
 	return g_pWorld;
 }
 
-World* g_pWorld;
+World *g_pWorld;
