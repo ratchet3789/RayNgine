@@ -1,15 +1,20 @@
 ﻿#include "World.h"
+
+#include "Physics.h"
 #include "../Debugging/Logger.h"
 #include "Nodes/World/WorldRoot.h"
 
 World::World()
 {
+	g_Physics.Initialize();
 }
 
 World::~World()
 {
 	for (Node *WorldNode: ActiveNodes) { delete WorldNode; }
 	for (Node *WorldNode: InactiveNodes) { delete WorldNode; }
+
+	g_Physics.Release();
 }
 
 void World::Activate(Node *InactiveNode)

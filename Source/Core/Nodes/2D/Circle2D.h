@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../Node.h"
-
+#include "../../NodeFactory.h"
 
 class Circle2D : public Node
 {
@@ -20,6 +20,8 @@ private:
 
 	DECLARE_DATA_TABLE(Circle2D)
 };
+
+REGISTER_NODE(Circle2D)
 
 START_DATA_TABLE(Circle2D)
 	DATA_TABLE_ENTRY("Velocity", Circle2D, Velocity, FIELD_VEC3, nullptr)

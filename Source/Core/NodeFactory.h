@@ -4,6 +4,7 @@
 #include <string>
 #include <functional>
 #include "Nodes/Node.h"
+#include "World.h"
 
 using NodeFactoryFunc = std::function<Node*(Node *Parent, std::string Name, Transform _Transform)>;
 

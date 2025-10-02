@@ -1,8 +1,6 @@
 ﻿#include "Circle2D.h"
 #include <raylib.h>
 #include "../../Window.h" // Todo: Intermediate classes so we don't just get the window res from the window itself
-#include "../../NodeFactory.h"
-#include "../../World.h"
 #include "../../../Debugging/Logger.h"
 
 void Circle2D::Tick(float DeltaTime)
@@ -36,5 +34,3 @@ void Circle2D::BeginPlay()
 	std::cout << (offsetof(Circle2D, Velocity)) << '\n';
 	std::cout << this << '\n';
 }
-
-REGISTER_NODE(Circle2D)

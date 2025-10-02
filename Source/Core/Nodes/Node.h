@@ -308,40 +308,25 @@ public:
 
 	// Base Node Calls
 	// Called when object Spawned/Created
-	virtual void BeginPlay()
-	{
-	}
+	virtual void BeginPlay() {}
 
 	// Called Per-frame
-	virtual void Tick(float DeltaTime)
-	{
-	}
+	virtual void Tick(float DeltaTime) {}
 
 	// Called per-Physics Tick
-	virtual void FixedUpdate(float DeltaTime)
-	{
-	}
+	virtual void FixedUpdate(float DeltaTime) {}
 
 	// Called when Garbage Collected
-
-	virtual void OnDestroy()
-	{
-	}
+	virtual void OnDestroy() {}
 
 	// Called when Enabled by user via Enable()
-	virtual void OnEnable()
-	{
-	}
+	virtual void OnEnable() {}
 
 	// Called when Disabled by user via Disable()
-	virtual void OnDisable()
-	{
-	}
+	virtual void OnDisable() {}
 
 	// Called when Key Press registered in Window
-	virtual void KeyPressed(KeyboardKey Key)
-	{
-	}
+	virtual void KeyPressed(KeyboardKey Key) {}
 
 	inline bool CanTick() { return bCanTick; }
 
