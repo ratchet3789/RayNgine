@@ -6,6 +6,7 @@
 
 World::World()
 {
+	// Move to World Load
 	g_Physics.Initialize();
 }
 

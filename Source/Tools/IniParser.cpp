@@ -191,4 +191,4 @@ inline bool IniParser::KeyExists(const std::string& Section, const std::string& 
 	return SectionItr->second.contains(Key);
 }
 
-IniParser g_IniParser("Fuck.ini");
+IniParser g_IniParser("config.ini");

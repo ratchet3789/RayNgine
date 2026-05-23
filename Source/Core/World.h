@@ -5,6 +5,8 @@
 
 #define WORLD_ROOT "WorldRoot"
 
+#define NULL_WORLD_FALLBACK "{\"Nodes\":[{\"Type\":\"WorldRoot\",\"Name\":\"Root\",\"Transform\":{\"Pos\":[0.0,0.0,0.0],\"Rot\":[0.0,0.0,0.0,1.0],\"Scale\":[1.0,1.0,1.0]},\"Children\":[{\"Type\":\"Circle2D\",\"Name\":\"Circle\",\"Transform\":{\"Pos\":[2.0,0.0,0.0],\"Rot\":[0.0,0.0,0.0,1.0],\"Scale\":[1.0,1.0,1.0]},\"Children\":[]}]}]}"
+
 class World
 {
 public:
@@ -97,9 +99,13 @@ public:
 	static World* Get();
 
 private:
+	// Nodes
 	std::vector<Node*> ActiveNodes;
 	std::vector<Node*> InactiveNodes;
+	// Keys
 	std::vector<Node*> KeyPressedQueue;
+	// Renderables
+	std::vector<Renderable*> Renderables;
 
 	using Clock = std::chrono::high_resolution_clock;
 	std::chrono::time_point<Clock> LastTime = Clock::now();

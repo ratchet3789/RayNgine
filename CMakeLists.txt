@@ -2,16 +2,48 @@
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 4.0)
-
 project(Shooter_Raylib)
+
+set(CXX_STANDARD 20)
+set(CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+#Debugging
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
 
 # Raylib options
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE) # global CMake switch
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)    # don’t pull Raylib’s example builds
 
-set(PHYSX_DIR "${CMAKE_SOURCE_DIR}/ThirdParty/physx/physx/install/vc17win64-cpu-only/PhysX/" CACHE PATH "Path To PhysX Install Directory" FORCE)
+# Jolt Options
+set(OPTION_OVERRIDE_LIBCXX OFF CACHE BOOL "" FORCE) # Ensures runtime libraries match
+set(CPP_RTTI_ENABLED ON CACHE BOOL "" FORCE)        # Fixes MSVC compilation errors with RTTI
+set(FORCE_INSTALLER_CRT_DYNAMIC ON CACHE BOOL "" FORCE)
+# Force /MD
+set(USE_STATIC_MSVC_RUNTIME OFF CACHE BOOL "" FORCE)
+# If Jolt is specifically looking for this common toggle:
+set(MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+# Disable Jolt's extra stuff to speed up your build
+set(TARGET_UNIT_TESTS OFF CACHE BOOL "" FORCE)
+set(TARGET_SAMPLES OFF CACHE BOOL "" FORCE)
+
+set(DOUBLE_PRECISION OFF)
+set(CROSS_PLATFORM_DETERMINISTIC ON)
+set(CPP_RTTI_ENABLED OFF)
+set(OBJECT_LAYER_BITS 16)
+
+# Remove Warnings as Errors for Windows
+if(MSVC)
+	add_compile_options(/wd4865)
+	set(FLAGS_WARNINGS_AS_ERRORS OFF CACHE BOOL "" FORCE)
+	# Set runtime library
+	if (USE_STATIC_MSVC_RUNTIME_LIBRARY)
+		set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	endif()
+endif()
 
 include(FetchContent)
+
 FetchContent_Declare(
 	raylib
 	GIT_REPOSITORY https://github.com/raysan5/raylib.git
@@ -19,104 +51,49 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(raylib)
 
+FetchContent_Declare(
+		JoltPhysics
+		GIT_REPOSITORY "https://github.com/jrouwe/JoltPhysics"
+		GIT_TAG "v5.4.0"
+		SOURCE_SUBDIR "Build"
+)
+FetchContent_MakeAvailable(JoltPhysics)
+
+file(GLOB_RECURSE SHOOTER_SOURCES
+	"Source/*.cpp"
+	"Source/*.h"
+)
+
 # Add source to this project's executable.
-add_executable (Shooter_Raylib
-	"Source/Shooter_Raylib.cpp"
-	"Source/Shooter_Raylib.h"
-	
-	"Source/Tools/IniParser.h"
-	"Source/Tools/IniParser.cpp"
-	
-	"Source/Debugging/Logger.h"
-	"Source/Debugging/Logger.cpp"
-	
-	"Source/Core/Window.h"
-	"Source/Core/Window.cpp"
+add_executable (Shooter_Raylib ${SHOOTER_SOURCES}
+		Source/Core/Nodes/World/CameraNode.cpp
+		Source/Core/Nodes/World/CameraNode.h
+		Source/Core/Nodes/World/CameraNode.h
+		Source/Core/Meshes/Renderable.cpp
+		Source/Core/Meshes/Renderable.h)
 
-	"Source/Core/Nodes/Node.cpp"
-	"Source/Core/Nodes/Node.h"
-	"Source/Core/IDAllocator.cpp"
-	"Source/Core/IDAllocator.h"
-	Source/Core/World.cpp
-	Source/Core/World.h
-	Source/Core/Nodes/World/WorldRoot.cpp
-	Source/Core/Nodes/World/WorldRoot.h
-	Source/Core/Nodes/2D/Circle2D.cpp
-	Source/Core/Nodes/2D/Circle2D.h
-	Source/Core/LevelSerializer.h
-	Source/Core/LevelSerializer.cpp
-	Source/Core/NodeFactory.h
-	Source/Core/NodeFactory.cpp
-	Source/Core/Math/Vector.h
-		Source/Core/Nodes/3D/Node3D_Physics.cpp
-		Source/Core/Nodes/3D/Node3D_Physics.h
-		Source/Core/Physics.cpp
-		Source/Core/Physics.h
-)
-
-source_group("Source" FILES
-	"Source/Shooter_Raylib.cpp"
-	"Source/Shooter_Raylib.h"
-)
-
-source_group("Tools" FILES
-	"Source/Tools/IniParser.h"
-	"Source/Tools/IniParser.cpp"
-)
-
-source_group("Debugging" FILES
-	"Source/Debugging/Logger.h"
-	"Source/Debugging/Logger.cpp"
-)
-
-source_group("Core" FILES
-	"Source/Core/Window.h"
-	"Source/Core/Window.cpp"
-	"Source/Core/IDAllocator.cpp"
-	"Source/Core/IDAllocator.h"
-)
-
-source_group("Core\\Nodes" FILES
-	"Source/Core/Nodes/Node.cpp"
-	"Source/Core/Nodes/Node.h"
-)
+# Mirror folder structure
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/Source" PREFIX "Source" FILES ${SHOOTER_SOURCES})
 
 set_target_properties(Shooter_Raylib PROPERTIES
-    VS_DEBUGGER_WORKING_DIRECTORY "$(SolutionDir)$(Configuration)"
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Game"
+	WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Game"
 )
 
+set(CMAKE_CROSSCONFIG_DEFAULT_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Game")
+set(CMAKE_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Game")
+
 target_include_directories(Shooter_Raylib PRIVATE
-	${CMAKE_SOURCE_DIR}/ThirdParty/rapidjson/include
-	${PHYSX_DIR}/include
-	${PHYSX_DIR}/pvdruntime/include
+		${CMAKE_CURRENT_SOURCE_DIR}/Source
+		${CMAKE_SOURCE_DIR}/ThirdParty/rapidjson/include
+		${JoltPhysics_SOURCE_DIR}/..
 )
 
 target_link_libraries(Shooter_Raylib PRIVATE
 	raylib
-	${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysX_64.lib
-	${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXCommon_64.lib
-	${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXFoundation_64.lib
-	${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXCooking_64.lib
-	${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXExtensions_static_64.lib
-	${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXCharacterKinematic_static_64.lib
-	${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXTask_static_64.lib
-	${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXPvdSDK_static_64.lib
-	${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PVDRuntime_64.lib
+	Jolt
 )
 
-# Copy our DLLs from PhysX
-add_custom_command(TARGET Shooter_Raylib POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different
-		"${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysX_64.dll"
-		"${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXCommon_64.dll"
-		"${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXCooking_64.dll"
-		"${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PhysXFoundation_64.dll"
-		"${PHYSX_DIR}/bin/win.x86_64.vc143.mt/Debug/PVDRuntime_64.dll"
-		$<TARGET_FILE_DIR:Shooter_Raylib>
-)
-
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET Shooter_Raylib PROPERTY CXX_STANDARD 20)
-endif()
+target_compile_features(Shooter_Raylib PUBLIC cxx_std_20)
 
 # TODO: Add tests and install targets if needed.

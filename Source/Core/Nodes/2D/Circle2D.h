@@ -18,6 +18,9 @@ private:
 	float CircleRadius{32.0f};
 	Color CircleColor{255,100,255,255};
 
+	Texture2D DvdTexture;
+	Texture2D DvdGlow;
+
 	DECLARE_DATA_TABLE(Circle2D)
 };
 

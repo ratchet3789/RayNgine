@@ -29,7 +29,8 @@ void Window::CreateWindow()
 
 void Window::Render()
 {
-	ClearBackground(Color(39, 58, 93, 255));
+	//ClearBackground(Color{39, 58, 93, 255});
+	ClearBackground(Color{0, 0, 0, 255});
 	BeginDrawing();
 
 	g_pWorld->Tick();

@@ -15,21 +15,28 @@ World *LevelSerializer::Load(const std::string& Path)
 	}
 
 	std::ifstream File(Path);
+	bool bFailedToLoadFromFile=false;
 	if (File.fail())
 	{
 		g_Logger.LogError("Failed to open file %s", Path.c_str());
-		return nullptr;
+		bFailedToLoadFromFile=true;
 	}
 
 	std::string JsonStr;
-	std::string Line;
-	while (std::getline(File, Line))
+	if (!bFailedToLoadFromFile)
 	{
-		JsonStr += Line + ' ';
+		std::string Line;
+		while (std::getline(File, Line))
+		{
+			JsonStr += Line + ' ';
+		}
+
+		g_Logger.Log("Json Data: %s", JsonStr.c_str());
 	}
-
-	g_Logger.Log("Json Data: %s", JsonStr.c_str());
-
+	else
+	{
+		JsonStr = NULL_WORLD_FALLBACK;
+	}
 	rapidjson::Document JsonWorldData{};
 	JsonWorldData.Parse(JsonStr.c_str());
 	if (JsonWorldData.HasParseError())

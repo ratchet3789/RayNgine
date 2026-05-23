@@ -52,8 +52,8 @@ struct FieldDesc
 	{nullptr, 0, FIELD_VOID, nullptr} /* Sentinel */ \
 	};
 
-#define DATA_TABLE_ENTRY(Name, T, Var, Type, Extra) \
-	{ Name, offsetof(T, Var), Type, Extra },
+#define DATA_TABLE_ENTRY(Name, T, Var, Type, Args) \
+	{ Name, offsetof(T, Var), Type, Args },
 
 #define SERIALIZE_SCALAR(T, Addr, Field, Alloc, Doc) \
 	{ \
@@ -343,8 +343,6 @@ protected:
 
 private:
 	void OnDestroy_World();
-
 	void OnEnable_World();
-
 	void OnDisable_World();
 };

@@ -1,7 +1,10 @@
 ﻿#include "Node3D_Physics.h"
 
+#include "../../Physics.h"
+
 void Node3D_Physics::BeginPlay()
-{}
+{
+}
 
 void Node3D_Physics::Tick(float DeltaTime){};
 void Node3D_Physics::FixedUpdate(float DeltaTime){};

@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "../Node.h"
 
-#include "characterkinematic/PxCapsuleController.h"
-
 class Node3D_Physics : public Node
 {
 public:

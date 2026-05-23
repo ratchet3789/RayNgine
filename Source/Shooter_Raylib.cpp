@@ -13,8 +13,11 @@
 
 int main()
 {
-	g_LevelSerializer.Load("DefaultLevel.json");
-
+	World* DefaultWorld = g_LevelSerializer.Load("DefaultLevel.json");
+	if (!DefaultWorld)
+	{
+		return 10;
+	}
 	g_Window.CreateWindow();
 	// Shutdown
 	//delete _Window;

@@ -1,0 +1,25 @@
+{
+  "Nodes": [
+    {
+      "Type": "WorldRoot",
+      "Name": "Root",
+      "Transform": {
+        "Pos": [0.0, 0.0, 0.0],
+        "Rot": [0.0, 0.0, 0.0, 1.0],
+        "Scale": [1.0, 1.0, 1.0]
+      },
+      "Children": [
+        {
+          "Type": "Circle2D",
+          "Name": "Circle",
+          "Transform": {
+            "Pos": [2.0, 0.0, 0.0],
+            "Rot": [0.0, 0.0, 0.0, 1.0],
+            "Scale": [1.0, 1.0, 1.0]
+          },
+          "Children": []
+        }
+      ]
+    }
+  ]
+}
