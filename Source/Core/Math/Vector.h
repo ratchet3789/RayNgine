@@ -1,17 +1,30 @@
 ﻿#pragma once
+/**************************************************************************************
+* Holds the logic for all of the Maths in the engine.
+* Currently we have
+* - Vector 2D, 3D and partial 4D support
+* - Transforms
+* - Wrapped support for Floats and Doubles
+**************************************************************************************/
 
 #include "string" // Printing
 #include <cmath>
 
+#if defined(DOUBLE_ACCURACY)
+#define ENGINE_FLOATING_POINT double
+#else
+#define ENGINE_FLOATING_POINT float
+#endif
+
 // Naming defs to stop clashing with RayLib's Math header!
-#define Vec2 INTRNL_Vector2<float>
+#define Vec2 INTRNL_Vector2<ENGINE_FLOATING_POINT>
 #define Vec2i INTRNL_Vector2<int32_t>
-#define Vec3 INTRNL_Vector3<float>
+#define Vec3 INTRNL_Vector3<ENGINE_FLOATING_POINT>
 #define Vec3i INTRNL_Vector3<int32_t>
-#define Vec4 INTRNL_Vector4<float>
+#define Vec4 INTRNL_Vector4<ENGINE_FLOATING_POINT>
 #define Vec4i INTRNL_Vector4<int32_t>
-#define Quat INTRNL_Vector4<float>
-#define Transform INTRNL_Transform<float, float, float>
+#define Quat INTRNL_Vector4<ENGINE_FLOATING_POINT>
+#define Transform INTRNL_Transform<ENGINE_FLOATING_POINT, ENGINE_FLOATING_POINT, ENGINE_FLOATING_POINT>
 
 #define VECTOR2_TO_RAYLIB(Vector) Vector2(Vector.X, Vector.Y);
 #define VECTOR3_TO_RAYLIB(Vector) Vector3(Vector.X, Vector.Y, Vector.Z);

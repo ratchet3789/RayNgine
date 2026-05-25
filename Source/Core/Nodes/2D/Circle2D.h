@@ -2,6 +2,12 @@
 #include "../Node.h"
 #include "../../NodeFactory.h"
 
+/**************************************************************************************
+* Literally the DVD logo, used to showcase that our engine does actually
+* spawn entities via the Json serialized Nodes, and also that the data is then
+* transferred into the game!
+**************************************************************************************/
+
 class Circle2D : public Node
 {
 public:
