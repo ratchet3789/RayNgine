@@ -56,11 +56,12 @@ void Logger::LogError(const char* Msg, ...)
 	printf("%s%s%s", ToColor(ELogColor::COLOR_RED), Buffer, ToColor(ELogColor::COLOR_RESET));
 }
 
-void Logger::LogCustomColor(const char* Msg, ELogColor Color, ...)
+void Logger::LogCustomColor(ELogColor Color, const char* Msg, ...)
 {
 	char Buffer[1024];
 
-	va_list Args; va_start(Args, Msg);
+	va_list Args;
+	va_start(Args, Msg);
 	ParseVArgs(Buffer, 1024, Msg, Args);
 	va_end(Args);
 

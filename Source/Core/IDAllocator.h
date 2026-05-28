@@ -2,6 +2,7 @@
 
 #include <queue>
 #include <map>
+#include <cstdint>
 
 struct IDHandle { int Id; int Generation; };
 

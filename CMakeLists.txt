@@ -70,7 +70,8 @@ add_executable (Shooter_Raylib ${SHOOTER_SOURCES}
 		Source/Core/Nodes/World/CameraNode.h
 		Source/Core/Nodes/World/CameraNode.h
 		Source/Core/Meshes/Renderable.cpp
-		Source/Core/Meshes/Renderable.h)
+		Source/Core/Meshes/Renderable.h
+		Source/CoreDbg.h)
 
 # Mirror folder structure
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/Source" PREFIX "Source" FILES ${SHOOTER_SOURCES})
@@ -82,6 +83,14 @@ set_target_properties(Shooter_Raylib PROPERTIES
 
 set(CMAKE_CROSSCONFIG_DEFAULT_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Game")
 set(CMAKE_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/Game")
+
+set(ASSET_DIR "${CMAKE_SOURCE_DIR}/Game")
+
+add_custom_command(TARGET Shooter_Raylib POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${ASSET_DIR}"
+		"$<TARGET_FILE_DIR:Shooter_Raylib>/Game"
+)
 
 target_include_directories(Shooter_Raylib PRIVATE
 		${CMAKE_CURRENT_SOURCE_DIR}/Source

@@ -27,5 +27,5 @@ struct NodeRegistrar
 #define REGISTER_NODE(T) \
 	static NodeRegistrar T##Reg(#T, \
 		[](Node* Parent, std::string Name, Transform _Transform) { \
-		return g_pWorld->SpawnNode<T>(Parent, Name, _Transform);\
+		return g_pWorld->SpawnNode<T>(Parent, Name, _Transform); \
 		});

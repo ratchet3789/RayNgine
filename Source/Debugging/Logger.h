@@ -5,6 +5,8 @@
 #include <stdarg.h>
 #include <cerrno>
 #include <cstring>
+#include "CoreDbg.h"
+#include <stdarg.h>
 
 enum class ELogColor : uint8_t
 {
@@ -51,14 +53,14 @@ public:
 	void Log(const char* Msg, ...);
 	void LogWarning(const char* Msg, ...);
 	void LogError(const char* Msg, ...);
-	void LogCustomColor(const char* Msg, ELogColor Color, ...);
+	void LogCustomColor(ELogColor Color, const char* Msg, ...);
 
 private:
 	std::ofstream LogFile;
 	bool bFileWriteable{false};
 
 	// Variadic data parser for DRY
-	__forceinline void ParseVArgs(char* OutBuffer, size_t BufferSize, const char* Format, va_list& Args)
+	void ParseVArgs(char* OutBuffer, size_t BufferSize, const char* Format, va_list Args)
 	{
 		va_list TmpArgs;
 		va_copy(TmpArgs, Args);

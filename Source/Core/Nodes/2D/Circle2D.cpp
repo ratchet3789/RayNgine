@@ -30,8 +30,8 @@ void Circle2D::BeginPlay()
 {
 	g_Window.GetRendererScale(ScreenResolution.X, ScreenResolution.Y);
 	NodeTransform.Location = Vec3(ScreenResolution.X * .5f, ScreenResolution.Y * .5f, 0.0f);
-	DvdTexture = LoadTexture("Art/textures/DVDLogo_256.png");
-	DvdGlow = LoadTexture("Art/textures/DVDLogoGlow_256.png");
+	DvdTexture = LoadTexture("art/textures/DVDLogo_256.png");
+	DvdGlow = LoadTexture("art/textures/DVDLogoGlow_256.png");
 
 	std::cout << (offsetof(Circle2D, Velocity)) << '\n';
 	std::cout << this << '\n';

@@ -104,8 +104,8 @@ private:
 	std::vector<Node*> InactiveNodes;
 	// Keys
 	std::vector<Node*> KeyPressedQueue;
-	// Renderables
-	std::vector<Renderable*> Renderables;
+	// Renderables - Dear me, what were you attempting here bud?
+	//std::vector<Renderable*> Renderables;
 
 	using Clock = std::chrono::high_resolution_clock;
 	std::chrono::time_point<Clock> LastTime = Clock::now();

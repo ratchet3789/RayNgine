@@ -9,7 +9,7 @@
 
 #include <string>
 #include <vector>
-
+#include <cstdint>
 /*
  * Given that we're extending the pre-existing RayLib system into a more C++ based polymorphic system
  * we have to define objects in a way that steps around the existing RayLib system, so things like
